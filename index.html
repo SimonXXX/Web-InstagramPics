@@ -20,7 +20,7 @@
       //--------------------------------------------------------------------------
 
       // all available images for the balls
-      var ballImages = [];
+      var instaImages = [];
 
       // all available images for the background
       var backgroundImages = [
@@ -53,11 +53,11 @@
         for (var i = 0; i < 20; i++) {
           var temp = getRandomPhoto();
           //alert(temp);
-          ballImages.push(temp);
+          instaImages.push(temp);
         }
         // create array of all images used by the page
         var images = ["./js_bs_images/blank.gif"]
-          .concat(self.ballImages)
+          .concat(self.instaImages)
           .concat(self.backgroundImages);
 
         // preload the images, then continue to "load()"
