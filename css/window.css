@@ -1,0 +1,60 @@
+/*##############################################################################
+// File: 
+//    window.css
+// Dependencies:
+//    [none]
+// Description:
+//    Styles for the window widget (window.js)
+//##############################################################################
+// (c)2005 Jeff Lau
+//##############################################################################
+*/
+
+.windowWrapper {
+  position: absolute;
+  overflow: visible;
+}
+
+.window {
+  position: relative;
+  background-color: #d4d0c8;
+  font-size: 14px;
+  width: 30em;
+  border-top: 2px #f2f0ee solid;
+  border-left: 2px #f2f0ee solid;
+  border-bottom: 2px #75736e solid;
+  border-right: 2px #75736e solid;
+  padding: 2px;
+  overflow: hidden;
+}
+
+.windowTitle {
+  background-color: #0a246a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 2px;
+  cursor: move;
+  white-space: nowrap;
+}
+
+.windowBody {
+  padding: 8px;
+}
+
+.windowText {
+  text-align: center;
+}
+
+.windowButtonBar {
+  padding: 8px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.windowButton {
+  background-color: #d4d0c8;
+  font-size: 12px;
+  margin-left: 8px;
+  width: 6em;
+}

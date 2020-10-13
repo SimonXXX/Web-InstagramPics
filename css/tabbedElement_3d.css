@@ -1,0 +1,122 @@
+/* Style sheet used by TabbedElement.js */
+
+/* applies to the div that the TabbedElement occupies */
+.tabbedElement {
+  /* give it a 3D border (border style "outset" seems inconsistent among browsers) */
+  border-top: #fff 1px solid;
+  border-left: #fff 1px solid;
+  border-right: #666 1px solid;
+  border-bottom: #666 1px solid;
+  
+  background-color: #d4d0c8;
+}
+
+/* applies to the DIV holds the page content (one container per page)*/
+.tabbedElement .page-container {
+  /* cause the page container to fill up the entire TabbedElement */
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  
+  /* make the background solid so it hides the bottom of the selected tab */
+  background-color: #d4d0c8;
+  
+  /* don't let the contents spill out */
+  overflow: auto;
+}
+
+/* applies to the DIV that holds all of the tabs */
+.tabbedElement .tab-container {
+  /* set the font for the tabs */
+  font-family: "Lucida Grande", Verdana, Geneva, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+
+  /* moves tabs up above the content */
+  position: absolute;
+  top: -1.2em;
+  left: -1px;
+
+  /* indents first tab a bit */
+  padding-left: 0em; 
+  
+  /* tabs will continue off to the side if there are too many
+     (it's better than letting them wrap and cover the content) */
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.tabbedElement .tab-container div .tab-icon {
+  position: relative;
+  top: .1em;
+  left: -.2em;
+  
+  width: 1em;
+  height: 1em;
+}
+
+/* applies to all tabs */
+.tabbedElement .tab-container div.tab {
+  display: inline;
+
+  color: #000;
+  background-color: #d4d0c8;
+  
+  border-top: #fff 1px solid;
+  border-left: #fff 1px solid;
+  border-right: #666 1px solid;
+
+  /* move the tab above border of the contents */
+  position: relative;
+  top: -1px;
+  left: .3em;
+
+  /* surround the text with some space */ 
+  padding-left: 1em; 
+  padding-right: 1em;
+  
+  /* prevent the text cursor */
+  cursor: default;
+}
+
+/* applies only to the tabs to the left of the selected tab */
+.tabbedElement .tab-container div.left-of-selected {
+}
+
+/* applies only to the tab directly to the left of the selected tab */
+.tabbedElement .tab-container div.directly-left-of-selected {
+}
+
+/* applies only to the tabs to the right of the selected tab */
+.tabbedElement .tab-container div.right-of-selected {
+  /* move to the left to account for the selected tab being moved to the left */
+  position: relative;
+  left: 0em;
+}
+
+/* applies only to the tab directly to the right of the selected tab */
+.tabbedElement .tab-container div.directly-right-of-selected {
+  /* clip off the left edge of the tab */
+  padding-left: .7em;
+  border-left: #d4d0c8 1px solid;
+}
+
+/* applies only to a tab while the mouse is hovering */
+.tabbedElement .tab-container div.hover {
+}
+
+/* applies only to the selected tab */
+.tabbedElement .tab-container div.selected {
+  /* make the tab appear to jump out a bit */
+  position: relative;
+  top: -.3em;
+  left: 0em;
+  padding-left: 1.3em; 
+  padding-right: 1.3em;
+
+  /* extend bottom of tab to cover the border */
+  padding-bottom: .5em;
+}
+

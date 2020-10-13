@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Home Page of Sven the Snake</title>
+
+    <script type="text/javascript" src="./js/load.js?v=15"></script>
+    <link rel="stylesheet" type="text/css" href="./css/slideControl.css?v=3" />
+    <link rel="stylesheet" type="text/css" href="./css/window.css?v=3" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./css/tabbedElement_3d.css?v=3"
+    />
+    <link rel="stylesheet" type="text/css" href="./sSheet.css" />
+
+    <script type="text/javascript">
+      //--------------------------------------------------------------------------
+      // GLOBALS!
+      //--------------------------------------------------------------------------
+
+      // all available images for the balls
+      var ballImages = [];
+
+      // all available images for the background
+      var backgroundImages = [
+        "./js_bs_images/wood015.jpg",
+        "./js_bs_images/wood3.jpg",
+      ];
+      function getRandomPhoto() {
+        var my_string = "" + Math.floor(Math.random() * 938);
+        while (my_string.length < 3) {
+          my_string = "0" + my_string;
+        }
+        return "./photos/" + my_string + ".jpg";
+      }
+      function loadResources() {
+        var scripts = [
+          "./js/utils.js",
+          "./js/metrics.js",
+          "./js/event.js",
+          "./js/cookie.js",
+          "./js/slideControl.js",
+          "./js/dragManager.js",
+          "./js/window.js",
+          "./js/getElements.js",
+          "./js/json2.js",
+          "./js/iframeRequest.js",
+          "./js/tabbedElement.js",
+          "./js/ballSim.js",
+          "./js/index.js",
+        ];
+        for (var i = 0; i < 20; i++) {
+          var temp = getRandomPhoto();
+          //alert(temp);
+          ballImages.push(temp);
+        }
+        // create array of all images used by the page
+        var images = ["./js_bs_images/blank.gif"]
+          .concat(self.ballImages)
+          .concat(self.backgroundImages);
+
+        // preload the images, then continue to "load()"
+        $load({
+          images: images,
+          scripts: scripts,
+          onload: loadProgress,
+          oncomplete: loadComplete,
+        });
+      }
+
+      function loadProgress(loaded, total) {
+        document.getElementById("progressBar").style.width =
+          (loaded * 100) / total + "%";
+      }
+
+      function loadComplete() {
+        if (window.load) {
+          load();
+        } else {
+          setTimeout(loadComplete, 100);
+        }
+      }
+    </script>
+  </head>
+
+  <body onLoad="loadResources()" onUnload="unload()">
+    <div id="progressMeter">
+      <div id="progressBar"></div>
+      <div id="progressText">Loading Resources...</div>
+    </div>
+
+    <div id="ballContainer" style="display: none; height: 1000px"></div>
+
+    <div id="saveSettingsContent" style="display: none"></div>
+
+    <div id="loadSettingsContent" style="display: none; height: 500px">
+      <form
+        name="loadSettingsInput"
+        action="http://www.uselesspickles.com/jsballs/include/loadFromFile.php"
+        method="post"
+        enctype="multipart/form-data"
+        target="IFrameRequest"
+        onsend="BallSim.stop(); self.loadingMessage.showModal();"
+        onsuccess="settingsFileLoaded(request);"
+        onerror="alert('A browser error has occured');"
+        oncomplete="self.loadingMessage.hide(); BallSim.start();"
+      >
+        <input type="hidden" name="MAX_FILE_SIZE" value="512000" />
+
+        <div class="labeledBox">
+          <label class="labeledBox">Saved Settings</label>
+
+          <span id="loadSlotOpt1" style="display: none"
+            ><label for="loadSlot1"
+              ><input id="loadSlot1" type="radio" name="slot" value="1" /><span
+                id="loadSlotDesc1"
+                >[empty]</span
+              ></label
+            ><br
+          /></span>
+          <span id="loadSlotOpt2" style="display: none"
+            ><label for="loadSlot2"
+              ><input id="loadSlot2" type="radio" name="slot" value="2" /><span
+                id="loadSlotDesc2"
+                >[empty]</span
+              ></label
+            ><br
+          /></span>
+          <span id="loadSlotOpt3" style="display: none"
+            ><label for="loadSlot3"
+              ><input id="loadSlot3" type="radio" name="slot" value="3" /><span
+                id="loadSlotDesc3"
+                >[empty]</span
+              ></label
+            ><br
+          /></span>
+          <label for="loadSlotPreset"
+            ><input
+              id="loadSlotPreset"
+              type="radio"
+              name="slot"
+              value="preset"
+            />Preset:</label
+          >
+          <select name="settingsPreset" onChange="$('loadSlotPreset').click()">
+            <option value="">Select one...</option></select
+          ><br />
+          <label for="loadSlotUpload"
+            ><input
+              id="loadSlotUpload"
+              type="radio"
+              name="slot"
+              value="upload"
+            />Upload:</label
+          >
+          <input
+            type="file"
+            name="settingsFile"
+            onChange="$('loadSlotUpload').click()"
+          /><br />
+        </div>
+        <br />
+        <label for="excludeBalls"
+          ><input id="excludeBalls" name="excludeBalls" type="checkbox" />Load
+          the physics settings only (leave my balls alone!).</label
+        >
+      </form>
+    </div>
+
+    <div id="preferencesContent" style="display: none"></div>
+
+    <div id="instructionsContent" style="display: none"></div>
+
+    <div id="aboutContent" style="display: none"></div>
+
+    <div id="addBallContent" style="display: none">
+      <form name="addBallInput" action="" onSubmit="return false">
+        <table width="100%" border="0" cellspacing="0">
+          <tr>
+            <td width="1">
+              <span id="ballSizeSlider" class="sliderContainer">
+                <span class="sliderLabel">
+                  <span
+                    class="clickableText"
+                    onClick="showHelp('Size'); Event.stopPropagation(event);"
+                    >Size</span
+                  >:
+                </span>
+              </span>
+
+              <span id="ballDensitySlider" class="sliderContainer">
+                <span class="sliderLabel">
+                  <span
+                    class="clickableText"
+                    onClick="showHelp('Density'); Event.stopPropagation(event);"
+                    >Density</span
+                  >:
+                </span>
+                <span class="sliderCheckbox">
+                  <input
+                    id="negativeMass"
+                    type="checkbox"
+                    name="negativeMass"
+                    onClick="Event.stopPropagation(event)"
+                  />
+                  <span
+                    class="clickableText"
+                    onClick="showHelp('Negative Mass'); Event.stopPropagation(event);"
+                    >Negative</span
+                  >
+                </span>
+              </span>
+
+              <br />
+              <span
+                class="clickableText"
+                onClick="showHelp('Ball Count'); Event.stopPropagation(event);"
+                >Count</span
+              >: <input type="text" name="count" size="4" />
+            </td>
+            <td>
+              <div class="labeledBox">
+                <label class="labeledBox">Preview</label>
+
+                <table width="100%" height="100%" border="0" cellspacing="0">
+                  <tr>
+                    <td height="108" align="center" valign="center">
+                      <img id="ballImage" src="./js_bs_images/blank.gif" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center">
+                      <input
+                        type="button"
+                        value="Change image..."
+                        onClick="changeBallImage()"
+                      />
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+
+    <div id="editBallContent" style="display: none">
+      <form name="editBallInput" action="" onSubmit="return false">
+        <div id="editBallTabs"></div>
+
+        <div id="editBallPositionTab" class="tabContent">
+          <table border="0" cellspacing="0">
+            <tr>
+              <td width="50%">X Component:</td>
+              <td>
+                <input
+                  type="text"
+                  name="posX"
+                  onChange="evaluateMathInput(this)"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Y Component:</td>
+              <td>
+                <input
+                  type="text"
+                  name="posY"
+                  onChange="evaluateMathInput(this)"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="editBallVelocityTab" class="tabContent">
+          <table border="0" cellspacing="0">
+            <tr>
+              <td width="50%">X Component:</td>
+              <td>
+                <input
+                  type="text"
+                  name="velX"
+                  onChange="evaluateMathInput(this); recalcAngleSpeed()"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Y Component:</td>
+              <td>
+                <input
+                  type="text"
+                  name="velY"
+                  onChange="evaluateMathInput(this); recalcAngleSpeed()"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Angle:</td>
+              <td>
+                <input
+                  type="text"
+                  name="angle"
+                  onChange="evaluateMathInput(this); recalcVelocity()"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Speed:</td>
+              <td>
+                <input
+                  type="text"
+                  name="speed"
+                  onChange="evaluateMathInput(this); recalcVelocity()"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="editBallSizeTab" class="tabContent">
+          <table border="0" cellspacing="0">
+            <tr>
+              <td width="50%">Radius:</td>
+              <td>
+                <input
+                  type="text"
+                  name="radius"
+                  onChange="evaluateMathInput(this); recalcMass()"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Density:</td>
+              <td>
+                <input
+                  type="text"
+                  name="density"
+                  onChange="evaluateMathInput(this); recalcMass()"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Mass:</td>
+              <td>
+                <input
+                  type="text"
+                  name="mass"
+                  onChange="evaluateMathInput(this); recalcDensity()"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="editBallImageTab" class="tabContent">
+          <img id="editBallImage" src="./js_bs_images/blank.gif" />
+          <br />
+          <input
+            type="button"
+            class="button"
+            value="Change..."
+            onClick="changeEditBallImage()"
+          />
+        </div>
+      </form>
+    </div>
+
+    <div id="toolbar" style="display: none">
+      <div id="title">Sven's Photos</div>
+
+      <div id="menu"></div>
+
+      <div class="labeledBox">
+        <form name="physicsInput" action="" onSubmit="return false">
+          <span id="frictionSlider" class="sliderContainer">
+            <span class="sliderLabel">
+              <span
+                class="clickableText"
+                onClick="showHelp('Rolling Friction'); Event.stopPropagation(event);"
+              ></span>
+            </span>
+            <span class="sliderRadios">
+              <label for="frictionMax"
+                ><input
+                  id="frictionMax"
+                  type="hidden"
+                  name="friction"
+                  value="Max"
+                  onClick="setSlider(self.frictionSlider, self.frictionSlider.getMaxValue()); Event.stopPropagation(event);"
+              /></label>
+              <label for="frictionOff"
+                ><input
+                  id="frictionOff"
+                  type="hidden"
+                  name="friction"
+                  value="Off"
+                  onClick="setSlider(self.frictionSlider, 0); Event.stopPropagation(event);"
+              /></label>
+            </span>
+          </span>
+
+          <span id="viscositySlider" class="sliderContainer">
+            <span class="sliderLabel">
+              <span
+                class="clickableText"
+                onClick="showHelp('Viscosity'); Event.stopPropagation(event);"
+              ></span>
+            </span>
+            <span class="sliderRadios">
+              <label for="viscosityMax"
+                ><input
+                  id="viscosityMax"
+                  type="hidden"
+                  name="viscosity"
+                  value="Max"
+                  onClick="setSlider(self.viscositySlider, self.viscositySlider.getMaxValue()); Event.stopPropagation(event);"
+              /></label>
+              <label for="viscosityOff"
+                ><input
+                  id="viscosityOff"
+                  type="hidden"
+                  name="viscosity"
+                  value="Off"
+                  onClick="setSlider(self.viscositySlider, 0); Event.stopPropagation(event);"
+              /></label>
+            </span>
+          </span>
+
+          <span id="gravitySlider" class="sliderContainer">
+            <span class="sliderLabel">
+              <span
+                class="clickableText"
+                onClick="showHelp('Gravity'); Event.stopPropagation(event);"
+                >Gravity</span
+              >:
+            </span>
+            <span class="sliderRadios">
+              <label for="gravityMin"
+                ><input
+                  id="gravityMin"
+                  type="radio"
+                  name="gravity"
+                  value="Min"
+                  onClick="setSlider(self.gravitySlider, self.gravitySlider.getMinValue()); Event.stopPropagation(event);"
+                />Min</label
+              >
+              <label for="gravityMax"
+                ><input
+                  id="gravityMax"
+                  type="radio"
+                  name="gravity"
+                  value="Max"
+                  onClick="setSlider(self.gravitySlider, self.gravitySlider.getMaxValue()); Event.stopPropagation(event);"
+                />Max</label
+              >
+              <label for="gravityOff"
+                ><input
+                  id="gravityOff"
+                  type="radio"
+                  name="gravity"
+                  value="Off"
+                  onClick="setSlider(self.gravitySlider, 0); Event.stopPropagation(event);"
+                />Off</label
+              >
+            </span>
+          </span>
+        </form>
+      </div>
+
+      <div class="labeledBox">
+        <label class="labeledBox"></label>
+
+        <input
+          type="button"
+          class="button"
+          value="Add Another Photo"
+          title="Add another Sven Photo to the page."
+          onclick="addNewBall()"
+        />
+      </div>
+
+      <div class="labeledBox">
+        <label class="labeledBox">Background</label>
+
+        <input
+          type="button"
+          class="button"
+          value="Change image..."
+          title="Change the background image."
+          onclick="changeBackgroundImage()"
+        />
+      </div>
+    </div>
+  </body>
+</html>
