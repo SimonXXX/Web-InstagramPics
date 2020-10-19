@@ -189,8 +189,8 @@ function load() {
                                     {label: "Cancel", isCancel: true, modalResult: Window.IDCANCEL}]);
   content.style.display = "";
 
-  self.ballSelector = new ImageSelector(self.ballImages);
-  $("ballImage").src = self.ballImages[self.ballSelector.getSelectedIndex()];
+  self.ballSelector = new ImageSelector(self.instaImages);
+  $("ballImage").src = self.instaImages[self.ballSelector.getSelectedIndex()];
 
   self.backgroundSelector = new ImageSelector(self.backgroundImages);
 
@@ -287,7 +287,7 @@ function initSimulation(stateString) {
     for (var i = 0; i < ballCount; ++i) {
       var radius = 50;
       var mass = (4.0 * Math.PI / 3.0) * radius * radius * radius;
-      var ball = new Ball(radius, mass, self.ballImages[i]);
+      var ball = new Ball(radius, mass, self.instaImages[i]);
       var angle = Math.random() * 2 * Math.PI;
       var speed = Math.random() * 200 + 100;
       ball.pos = new Vector(viewportDims.x * i / ballCount, viewportDims.y * i / ballCount);
@@ -377,7 +377,7 @@ function addBall(ball) {
       mass = -mass;
     }
 
-    var ball = new Ball(radius, mass, self.ballImages[self.ballSelector.getSelectedIndex()]);
+    var ball = new Ball(radius, mass, self.instaImages[self.ballSelector.getSelectedIndex()]);
     var angle = Math.random() * 2 * Math.PI;
     var speed = Math.random() * 200 + 100;
     ball.pos = new Vector(viewportDims.x / 2, viewportDims.y / 2);
