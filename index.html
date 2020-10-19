@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Home Page of Sven the Snake</title>
+    <title>Billy Mortimer's Bouncing Instagram Page</title>
 
     <script type="text/javascript" src="./js/load.js?v=15"></script>
     <link rel="stylesheet" type="text/css" href="./css/slideControl.css?v=3" />
@@ -19,17 +19,18 @@
       // GLOBALS!
       //--------------------------------------------------------------------------
 
-      // all available images for the balls
+      // all available images for the instagram imagese
       var instaImages = [];
-      const NUM_PHOTOS = 938;
+      const NUM_ALL_PHOTOS = 938;
+      const NUM_PHOTOS_IN_MEMORY = 20;
 
       // all available images for the background
       var backgroundImages = [
-        "./js_bs_images/wood015.jpg",
+        "./js_bs_images/blue_swirls.png",
         "./js_bs_images/wood3.jpg",
       ];
       function getRandomPhoto() {
-        var my_string = "" + Math.floor(Math.random() * NUM_PHOTOS);
+        var my_string = "" + Math.floor(Math.random() * NUM_ALL_PHOTOS);
         while (my_string.length < 3) {
           my_string = "0" + my_string;
         }
@@ -51,9 +52,8 @@
           "./js/ballSim.js",
           "./js/index.js",
         ];
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < NUM_PHOTOS_IN_MEMORY; i++) {
           var temp = getRandomPhoto();
-          //alert(temp);
           instaImages.push(temp);
         }
         // create array of all images used by the page
