@@ -144,7 +144,7 @@ function load() {
   using("BallSim.Ball");
 
   // create and display loading message
-  self.loadingMessage = new Window({content: "Loadinfffg...", hasTitleBar: false});
+  self.loadingMessage = new Window({content: "Loading...", hasTitleBar: false});
   self.loadingMessage.showModal();
 
   // load cookie
