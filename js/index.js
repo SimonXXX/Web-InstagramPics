@@ -238,7 +238,7 @@ function load() {
   }
 
   // the toolbar is ready to display now
-  $("ballContainer").style.display = "";
+  $("imageContainer").style.display = "";
   $("toolbar").style.display = "";
 
   IFrameRequest.initializeAllForms();
@@ -281,7 +281,7 @@ function initSimulation(stateString) {
     setSlider(self.viscositySlider, BallSim.getViscosity());
     setSlider(self.gravitySlider, BallSim.getGravity());
 
-    var viewportDims = Metrics.getDims($("ballContainer"));
+    var viewportDims = Metrics.getDims($("imageContainer"));
     var ballCount = 13;
 
     for (var i = 0; i < ballCount; ++i) {
@@ -305,7 +305,7 @@ function initSimulation(stateString) {
 
 function finishedLoading() {
   self.resetSettingsState = createBallSimStateString(true);
-  BallSim.start("return Metrics.getRect($('ballContainer'))");
+  BallSim.start("return Metrics.getRect($('imageContainer'))");
 
   self.loadingMessage.hide();
 
@@ -368,7 +368,7 @@ function setSlider(slider, value) {
 
 function addBall(ball) {
   if (!ball) {
-    var viewportDims = Metrics.getDims($("ballContainer"));
+    var viewportDims = Metrics.getDims($("imageContainer"));
 
     var radius = self.ballSizeSlider.getValue();
     var mass = (4.0 * Math.PI / 3.0) * radius * radius * radius * self.ballDensitySlider.getValue();
@@ -461,7 +461,7 @@ function showHelp(topic) {
 
 function createBallSimStateString(includeBalls) {
   var simState = new Object();
-  var bounds = Metrics.getRect($("ballContainer"));
+  var bounds = Metrics.getRect($("imageContainer"));
   var posAdjust = Vector.add(bounds.pos, Vector.scale(bounds.dims, 0.5));
 
   simState.version = self.version.toString();
@@ -523,10 +523,10 @@ function loadBallSimState(stateString, includeBalls) {
   }
 
   self.backgroundSelector.setSelectedSrc(simState.background);
-  $("ballContainer").style.backgroundImage = "url('" + self.backgroundSelector.getSelectedSrc() + "')";
+  $("imageContainer").style.backgroundImage = "url('" + self.backgroundSelector.getSelectedSrc() + "')";
 
   if (includeBalls) {
-    var bounds = Metrics.getRect($("ballContainer"));
+    var bounds = Metrics.getRect($("imageContainer"));
     var posAdjust = Vector.add(bounds.pos, Vector.scale(bounds.dims, 0.5));
 
     for (var i = 0; i < simState.balls.length; ++i) {
@@ -773,7 +773,7 @@ function editBallHandler(ball, modalResult) {
       return false;
     }
 
-    var bounds = Metrics.getRect($("ballContainer"));
+    var bounds = Metrics.getRect($("imageContainer"));
     var pos = new Vector(posX, -posY);
     pos.add(Vector.add(bounds.pos, Vector.scale(bounds.dims, 0.5)));
 
@@ -870,6 +870,6 @@ function changeBackgroundImage() {
 };
 
 function changeBackgroundImageHandler(modalResult) {
-  $("ballContainer").style.backgroundImage = "url('" + self.backgroundSelector.getSelectedSrc() + "')";
+  $("imageContainer").style.backgroundImage = "url('" + self.backgroundSelector.getSelectedSrc() + "')";
   BallSim.start();
 }
