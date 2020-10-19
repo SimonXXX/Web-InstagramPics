@@ -50,6 +50,7 @@ function ImageSelector(images, selectedIndex) {
   for (var i = 0; i < images.length; ++i) {
     var img = imageContainer.appendChild(document.createElement("img"));
     img.src = images[i];
+    img.style="width:100px;height:100px;";
 
     if (i == selectedIndex) {
       img.className = "selected";
@@ -164,13 +165,6 @@ function load() {
   content = $("loadSettingsContent");
   self.loadSettingsWindow = new Window({title: "Load Settings", content: content},
                                        [{label: "Load", isDefault: true, modalResult: Window.IDOK},
-                                        {label: "Cancel", isCancel: true, modalResult: Window.IDCANCEL}]);
-  content.style.display = "";
-
-  // create "save settings" window
-  content = $("saveSettingsContent");
-  self.saveSettingsWindow = new Window({title: "Save Settings", content: content},
-                                       [{label: "Save", isDefault: true, modalResult: Window.IDOK},
                                         {label: "Cancel", isCancel: true, modalResult: Window.IDCANCEL}]);
   content.style.display = "";
 
@@ -639,18 +633,10 @@ function loadSettings() {
 
   BallSim.stop();
   self.loadSettingsWindow.showModal(loadSettingsHandler);
-  setRadioValue(document.loadSettingsInput.slot, defaultSlot || "preset");
-  document.loadSettingsInput.settingsPreset.selectedIndex = 0;
-  document.loadSettingsInput.excludeBalls.checked = false;
 }
 
 function loadSettingsHandler(modalResult) {
   BallSim.start();
-}
-
-function settingsFileLoaded(request) {
-  loadBallSimState(request.getResponseObject(), !document.loadSettingsInput.excludeBalls.checked);
-  self.resetSettingsState = createBallSimStateString(true);
 }
 
 //--------------------------------------------------------------------------

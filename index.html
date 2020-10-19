@@ -18,7 +18,7 @@
       //--------------------------------------------------------------------------
       // GLOBALS!
       //--------------------------------------------------------------------------
-
+      //http://www.uselesspickles.com/jsballs/include/loadFromFile.php
       // all available images for the instagram imagese
       var instaImages = [];
       const NUM_ALL_PHOTOS = 938;
@@ -93,83 +93,16 @@
       <div id="progressText">Loading Resources...</div>
     </div>
 
-    <div id="imageContainer" style="display: none; height: 1000px"></div>
+    <div id="imageContainer">
+     </div>
 
-    <div id="saveSettingsContent" style="display: none"></div>
-
-    <div id="loadSettingsContent" style="display: none; height: 500px">
+     <div id="loadSettingsContent" style="background-color:blueviolet; display: none; height: 500px" >
       <form
         name="loadSettingsInput"
-        action="http://www.uselesspickles.com/jsballs/include/loadFromFile.php"
-        method="post"
-        enctype="multipart/form-data"
-        target="IFrameRequest"
-        onsend="BallSim.stop(); self.loadingMessage.showModal();"
-        onsuccess="settingsFileLoaded(request);"
-        onerror="alert('A browser error has occured');"
-        oncomplete="self.loadingMessage.hide(); BallSim.start();"
+        oncomplete="BallSim.start(); loadSlotPreset();"
       >
-        <input type="hidden" name="MAX_FILE_SIZE" value="512000" />
-
-        <div class="labeledBox">
-          <label class="labeledBox">Saved Settings</label>
-
-          <span id="loadSlotOpt1" style="display: none"
-            ><label for="loadSlot1"
-              ><input id="loadSlot1" type="radio" name="slot" value="1" /><span
-                id="loadSlotDesc1"
-                >[empty]</span
-              ></label
-            ><br
-          /></span>
-          <span id="loadSlotOpt2" style="display: none"
-            ><label for="loadSlot2"
-              ><input id="loadSlot2" type="radio" name="slot" value="2" /><span
-                id="loadSlotDesc2"
-                >[empty]</span
-              ></label
-            ><br
-          /></span>
-          <span id="loadSlotOpt3" style="display: none"
-            ><label for="loadSlot3"
-              ><input id="loadSlot3" type="radio" name="slot" value="3" /><span
-                id="loadSlotDesc3"
-                >[empty]</span
-              ></label
-            ><br
-          /></span>
-          <label for="loadSlotPreset"
-            ><input
-              id="loadSlotPreset"
-              type="radio"
-              name="slot"
-              value="preset"
-            />Preset:</label
-          >
-          <select name="settingsPreset" onChange="$('loadSlotPreset').click()">
-            <option value="">Select one...</option></select
-          ><br />
-          <label for="loadSlotUpload"
-            ><input
-              id="loadSlotUpload"
-              type="radio"
-              name="slot"
-              value="upload"
-            />Upload:</label
-          >
-          <input
-            type="file"
-            name="settingsFile"
-            onChange="$('loadSlotUpload').click()"
-          /><br />
-        </div>
-        <br />
-        <label for="excludeBalls"
-          ><input id="excludeBalls" name="excludeBalls" type="checkbox" />Load
-          the physics settings only (leave my balls alone!).</label
-        >
-      </form>
-    </div>
+      <select name="settingsPreset" onChange="$('loadSlotPreset').click()"></select>
+      </div>
 
     <div id="preferencesContent" style="display: none"></div>
 
@@ -372,7 +305,7 @@
     </div>
 
     <div id="toolbar" style="display: none">
-      <div id="title">Sven's Photos</div>
+      <div id="title">Change Stuff</div>
 
       <div id="menu"></div>
 
@@ -480,7 +413,7 @@
           type="button"
           class="button"
           value="Add Another Photo"
-          title="Add another Sven Photo to the page."
+          title="Add another Photo to the page."
           onclick="addNewBall()"
         />
       </div>
