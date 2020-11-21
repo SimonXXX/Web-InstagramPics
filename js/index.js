@@ -170,8 +170,8 @@ function load() {
 
   // create "add ball" window
   content = $("addBallContent");
-  self.addBallWindow = new Window({title: "Add Sven Photo", content: content},
-                                  [{label: "Add", isDefault: true, modalResult: Window.IDOK},
+  self.addBallWindow = new Window({title: "Refresh Images", content: content},
+                                  [{label: "Reload", isDefault: true, modalResult: Window.IDOK},
                                    {label: "Cancel", isCancel: true, modalResult: Window.IDCANCEL}]);
   content.style.display = "";
 
@@ -656,49 +656,6 @@ function editPreferencesHandler(modalResult) {
   BallSim.start();
 }
 
-//--------------------------------------------------------------------------
-// "Add New Ball"
-//--------------------------------------------------------------------------
-
-function addNewBall() {
-  BallSim.stop();
-  self.addBallWindow.showModal(addNewBallHandler);
-
-  setSlider(self.ballSizeSlider, 20);
-  setSlider(self.ballDensitySlider, 1);
-  document.addBallInput.count.value = "1";
-
-  self.ballSelector.setSelectedIndex(0);
-  $("ballImage").src = self.ballSelector.getSelectedSrc();
-}
-
-function addNewBallHandler(modalResult) {
-  if (modalResult == Window.IDOK) {
-    var count = parseInt(document.addBallInput.count.value);
-
-    if (isNaN(count) || count < 1) {
-      this.messageBox("Please enter a number greater than zero for 'Count'",
-                      "Invalid Value", Window.MB_OK);
-
-      return false;
-    }
-
-    for (var i = 0; i < count; ++i) {
-      addBall();
-    }
-  }
-
-  BallSim.updateDisplay();
-  BallSim.start();
-}
-
-function changeBallImage() {
-  self.ballSelector.showModal(changeBallImageHandler);
-};
-
-function changeBallImageHandler(modalResult) {
-  $("ballImage").src = self.ballSelector.getSelectedSrc();
-}
 
 //--------------------------------------------------------------------------
 // "Edit Existing Ball"

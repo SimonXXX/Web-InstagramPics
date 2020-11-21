@@ -22,7 +22,7 @@
       // all available images for the instagram imagese
       var instaImages = [];
       const NUM_ALL_PHOTOS = 938;
-      const NUM_PHOTOS_IN_MEMORY = 20;
+      const NUM_PHOTOS_IN_MEMORY = 12;
 
       // all available images for the background
       var backgroundImages = [
@@ -38,6 +38,29 @@
         }
         return "./photos/" + my_string + ".jpg";
       }
+
+      function reloadImages() {
+        instaImages = [];
+        for (var i = 0; i < NUM_PHOTOS_IN_MEMORY; i++) {
+          instaImages.push(getRandomPhoto());
+        }
+        var images = ["./js_bs_images/blank.gif"]
+          .concat(self.instaImages)
+          .concat(self.backgroundImages);
+
+        console.log("hello")
+
+        // preload the images, then continue to "load()"
+        $load({
+          images: "",
+          images: images,
+          //scripts: scripts,
+          onload: loadProgress,
+          oncomplete: loadComplete,
+        });
+
+      }
+
       function loadResources() {
         var scripts = [
           "./js/utils.js",
@@ -54,9 +77,9 @@
           "./js/ballSim.js",
           "./js/index.js",
         ];
+
         for (var i = 0; i < NUM_PHOTOS_IN_MEMORY; i++) {
-          var temp = getRandomPhoto();
-          instaImages.push(temp);
+          instaImages.push(getRandomPhoto());
         }
         // create array of all images used by the page
         var images = ["./js_bs_images/blank.gif"]
@@ -412,9 +435,9 @@
         <input
           type="button"
           class="button"
-          value="Add Another Photo"
-          title="Add another Photo to the page."
-          onclick="addNewBall()"
+          value="Reload with new images"
+          title="Reload a new set of images"
+          onclick="reloadImages()"
         />
       </div>
 
